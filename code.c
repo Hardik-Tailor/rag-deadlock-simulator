@@ -9,28 +9,34 @@ int graph[MAX_NODES][MAX_NODES];
 int nodeType[MAX_NODES];
 int nodeCount = 0;
 
-void addProcess() {
-    nodeType[nodeCount] = PROCESS;
-    nodeCount++;
-}
+void addProcess() { nodeType[nodeCount++] = PROCESS; }
+void addResource() { nodeType[nodeCount++] = RESOURCE; }
+void addEdge(int a, int b) { graph[a][b] = 1; }
 
-void addResource() {
-    nodeType[nodeCount] = RESOURCE;
-    nodeCount++;
-}
+void displayGraph() {
+    printf("\n===== RAG =====\n");
 
-void addEdge(int from, int to) {
-    if (graph[from][to] == 1) {
-        printf("Edge already exists.\n");
-        return;
+    for (int i = 0; i < nodeCount; i++) {
+
+        if (nodeType[i] == PROCESS) printf("P%d: ", i);
+        else printf("R%d: ", i);
+
+        for (int j = 0; j < nodeCount; j++) {
+            if (graph[i][j] == 1) {
+                if (nodeType[j] == PROCESS) printf("-> P%d ", j);
+                else printf("-> R%d ", j);
+            }
+        }
+        printf("\n");
     }
-    graph[from][to] = 1;
-    printf("Edge %d -> %d added.\n", from, to);
+
+    printf("================\n");
 }
 
 int main() {
     addProcess();
     addResource();
     addEdge(0, 1);
+    displayGraph();
     return 0;
 }
